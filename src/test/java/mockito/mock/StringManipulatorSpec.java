@@ -2,11 +2,13 @@ package mockito.mock;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class StringManipulatorSpec {
 
     @Test
-    void manipulate() {
+    void shouldStoreNewUser() {
+        SimpleRegistrationService service = new SimpleRegistrationService();
+
+        User actualUser = service.registerUser("moris");
+
     }
 }

@@ -1,15 +1,23 @@
 package mockito.mock;
 
-public class FakeUserRepository implements  UserRepository {
+public class FakeUserRepository implements UserRepository {
     @Override
     public User save(final User user) {
+
         System.out.println("#Fake user repository save");
         return null;
     }
 
     @Override
     public User findByUsername(final String username) {
-        return null;
+        if (username.equals("moris")) {
+            System.out.println("Extra name");
+            return new User();
+        } else if (username.equals("tom")){
+            System.out.println("So sorry");
+            throw new RuntimeException("Error in DB");}
+        else return new User();
+
     }
 
     @Override
