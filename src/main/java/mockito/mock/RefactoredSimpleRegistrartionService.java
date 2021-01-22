@@ -14,7 +14,7 @@ public class RefactoredSimpleRegistrartionService {
             return existingUser;
         }
         User user = new User();
-        user.setUserName(username);
+        user.setUsername(username);
         user.setCreatedAt(LocalDateTime.now());
         return userRepository.save(user);
     }

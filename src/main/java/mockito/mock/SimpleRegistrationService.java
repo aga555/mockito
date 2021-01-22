@@ -6,7 +6,7 @@ public class SimpleRegistrationService {
     private UserRepository userRepository = new JpaUserRepository();
 
     public User registerUser(String username) {
-        User existinUser = userRepository.findByUsername();
+        User existinUser = userRepository.findByUsername(username);
         if (existinUser != null) {
             return existinUser;
         }

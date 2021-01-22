@@ -12,4 +12,9 @@ public class JpaUserRepository implements UserRepository  {
         System.out.println("Retrieving a given user from the database");
         return null;
     }
+
+    @Override
+    public User findByUserName() {
+        return null;
+    }
 }

@@ -2,6 +2,8 @@ package mockito.mock;
 
 import java.util.List;
 
+import static java.util.List.*;
+
 public class BannedUsersClient {
     public boolean isBanned(String username, Address address) {
         // request information from a remote system
@@ -22,6 +24,6 @@ public class BannedUsersClient {
     }
 
     public List<Long> bannedUserId() {
-        return List.of(1L, 2L, 3L);
+        return of(1L, 2L, 3L);
     }
 }
