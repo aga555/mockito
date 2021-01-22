@@ -2,10 +2,13 @@ package mockito.mock;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+@ExtendWith(MockitoExtension.class)
 class RefactoredSimpleRegistrartionServiceSpecV1 {
     @Mock
     private UserRepository userRepository;
@@ -13,12 +16,6 @@ class RefactoredSimpleRegistrartionServiceSpecV1 {
     private BannedUsersClient bannedUsersClient;
     @InjectMocks
     private RegistrationService registrationService;
-
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-        //   this.registrationService = new RegistrationService(userRepository, bannedUsersClient);
-    }
 
     @Test
     void shouldStoreNewUser() {
