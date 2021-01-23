@@ -96,4 +96,14 @@ class RefactoredSimpleRegistrartionServiceSpec {
         System.out.println(userRepository.save(new User()));
     }
 
+    @Test
+    void shouldNotAllowRegistrationOfBannedUsers() {
+        when(bannedUsersClient.isBanned(eq("mike"), any(Address.class))).thenReturn(true);
+
+        assertThrows(IllegalArgumentException.class,
+                () -> registrationService.registerUser(
+                        "mike", Utils.createContactInformation("duke@email.com")));
+
+
+    }
 }
