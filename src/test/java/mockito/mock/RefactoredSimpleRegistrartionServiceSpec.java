@@ -9,6 +9,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -104,6 +105,23 @@ class RefactoredSimpleRegistrartionServiceSpec {
                 () -> registrationService.registerUser(
                         "mike", Utils.createContactInformation("duke@email.com")));
 
+    }
+
+    @Test
+    void shouldAllowRegistrationOfNewUser() {
+        when(bannedUsersClient.isBanned(eq("mike"), any(Address.class))).thenReturn(false);
+
+        when(userRepository.findByUsername("mike")).thenReturn(null);
+
+        when(userRepository.save(any(User.class))).thenAnswer(
+                invocation -> {
+                    User user = invocation.getArgument(0);
+                    user.setId(50L);
+                    return user;
+                });
+        User user = registrationService.registerUser("mike", Utils.createContactInformation("mike@mockito.org"));
+
+        assertNotNull(user);
 
     }
 }
