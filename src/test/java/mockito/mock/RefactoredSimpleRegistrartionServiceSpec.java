@@ -5,10 +5,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.when;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -36,7 +40,7 @@ class RefactoredSimpleRegistrartionServiceSpec {
     @Test
     void basicStubbing() {
 
-        Mockito.when(bannedUsersClient.isBanned("mike", new Address())).thenReturn(true);
+        when(bannedUsersClient.isBanned("mike", new Address())).thenReturn(true);
 
         System.out.println(bannedUsersClient.isBanned("mike", new Address()));
 
@@ -44,13 +48,23 @@ class RefactoredSimpleRegistrartionServiceSpec {
 
     @Test
     void basicsStubbingWithArgumentMatchers() {
-        Mockito.when(bannedUsersClient.isBanned(ArgumentMatchers.eq("duke"), ArgumentMatchers.any(Address.class))).thenReturn(true);
+        when(bannedUsersClient.isBanned(eq("duke"), any(Address.class))).thenReturn(true);
 
-        Mockito.when(bannedUsersClient.isBanned(ArgumentMatchers.argThat(s -> s.length() <= 3), ArgumentMatchers.isNotNull())).thenReturn(false);
-        Mockito.when(bannedUsersClient.isBanned(ArgumentMatchers.anyString(), ArgumentMatchers.any(Address.class))).thenReturn(true);
+        when(bannedUsersClient.isBanned(ArgumentMatchers.argThat(s -> s.length() <= 3), ArgumentMatchers.isNotNull())).thenReturn(false);
+        when(bannedUsersClient.isBanned(ArgumentMatchers.anyString(), any(Address.class))).thenReturn(true);
         System.out.println(bannedUsersClient.isBanned("mike", new Address()));
         System.out.println(bannedUsersClient.isBanned("dddddddddd", new Address()));
         System.out.println(bannedUsersClient.isBanned("foo", new Address()));
+
+    }
+
+    @Test
+    void basicStubbingUsageThrows() {
+        when(bannedUsersClient.isBanned(eq("mike"), any())).thenThrow(new RuntimeException("Rmote sysstem is down"));
+        System.out.println(bannedUsersClient.isBanned("tom", new Address()));
+        //System.out.println(bannedUsersClient.isBanned("mike", new Address()));
+        assertThrows(RuntimeException.class,()->System.out.println(bannedUsersClient.isBanned("mike", new Address())));
+
 
     }
 }
