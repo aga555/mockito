@@ -72,4 +72,29 @@ class RefactoredSimpleRegistrartionServiceSpec {
         when(bannedUsersClient.isBanned(eq("mike"), any(Address.class))).thenCallRealMethod();
         System.out.println(bannedUsersClient.isBanned("mike", new Address()));
     }
+
+    @Test
+    void basicStubbingUsageThenAnswear() {
+        when(bannedUsersClient.isBanned(eq("mike"), any(Address.class))).thenAnswer(
+                invocation -> {
+                    String username = invocation.getArgument(0);
+                    Address address = invocation.getArgument(1);
+                    return username.contains("m") && address.getCity().contains("M");
+                });
+        Address address = new Address();
+        address.setCity("Mexico city");
+        System.out.println(bannedUsersClient.isBanned("mike", address));
+
+        Address address2 = new Address();
+        address.setCity("New York");
+        System.out.println(bannedUsersClient.isBanned("tom", address2));
+
+        when(userRepository.save(any(User.class))).thenAnswer(invocation -> {
+            User user = invocation.getArgument(0);
+            user.setId(42L);
+            return user;
+        });
+        System.out.println(userRepository.save(new User()));
+    }
+
 }
