@@ -2,6 +2,7 @@ package mockito.mock;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -39,6 +40,17 @@ class RefactoredSimpleRegistrartionServiceSpec {
 
         System.out.println(bannedUsersClient.isBanned("mike", new Address()));
 
+    }
+
+    @Test
+    void basicsStubbingWithArgumentMatchers() {
+        Mockito.when(bannedUsersClient.isBanned(ArgumentMatchers.eq("duke"), ArgumentMatchers.any(Address.class))).thenReturn(true);
+
+        Mockito.when(bannedUsersClient.isBanned(ArgumentMatchers.argThat(s -> s.length() <= 3), ArgumentMatchers.isNotNull())).thenReturn(false);
+        Mockito.when(bannedUsersClient.isBanned(ArgumentMatchers.anyString(), ArgumentMatchers.any(Address.class))).thenReturn(true);
+        System.out.println(bannedUsersClient.isBanned("mike", new Address()));
+        System.out.println(bannedUsersClient.isBanned("dddddddddd", new Address()));
+        System.out.println(bannedUsersClient.isBanned("foo", new Address()));
 
     }
 }
