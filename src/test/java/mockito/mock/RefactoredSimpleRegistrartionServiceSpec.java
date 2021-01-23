@@ -63,8 +63,13 @@ class RefactoredSimpleRegistrartionServiceSpec {
         when(bannedUsersClient.isBanned(eq("mike"), any())).thenThrow(new RuntimeException("Rmote sysstem is down"));
         System.out.println(bannedUsersClient.isBanned("tom", new Address()));
         //System.out.println(bannedUsersClient.isBanned("mike", new Address()));
-        assertThrows(RuntimeException.class,()->System.out.println(bannedUsersClient.isBanned("mike", new Address())));
+        assertThrows(RuntimeException.class, () -> System.out.println(bannedUsersClient.isBanned("mike", new Address())));
 
+    }
 
+    @Test
+    void basicStubbingUsagCallRealMethod() {
+        when(bannedUsersClient.isBanned(eq("mike"), any(Address.class))).thenCallRealMethod();
+        System.out.println(bannedUsersClient.isBanned("mike", new Address()));
     }
 }
