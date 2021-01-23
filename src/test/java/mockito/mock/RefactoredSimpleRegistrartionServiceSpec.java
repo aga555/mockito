@@ -89,11 +89,10 @@ class RefactoredSimpleRegistrartionServiceSpec {
         address.setCity("New York");
         System.out.println(bannedUsersClient.isBanned("tom", address2));
 
-        when(userRepository.save(any(User.class))).thenAnswer(invocation -> {
-            User user = invocation.getArgument(0);
-            user.setId(42L);
-            return user;
-        });
+        User returnedUser = new User();
+        returnedUser.setId(42L);
+
+        when(userRepository.save(any(User.class))).thenReturn(returnedUser);
         System.out.println(userRepository.save(new User()));
     }
 
