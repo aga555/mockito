@@ -74,7 +74,7 @@ class RefactoredSimpleRegistrartionServiceSpec {
     }
 
     @Test
-    void basicStubbingUsageThenAnswear() {
+    void basicStubbingUsageThenAnswer() {
         when(bannedUsersClient.isBanned(eq("mike"), any(Address.class))).thenAnswer(
                 invocation -> {
                     String username = invocation.getArgument(0);
